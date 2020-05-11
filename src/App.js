@@ -2,48 +2,68 @@ import React from 'react';
 import './App.css';
 import Chatbox from './components/Chatbox';
 import {Link} from 'react-router-dom';
+import firebase from './firebase';
+import { Button, Typography, Container, TextField, Box } from '@material-ui/core';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			term: '',
-			items: []
+			message: ''
 		};
 	}
 
 	onChange = (event) => {
-		this.setState({ term: event.target.value });
+		this.setState({[event.target.name]: event.target.value });
 	}
 	
 	onSubmit = (event) => {
 		event.preventDefault()
-		this.setState({
-			term: '',
-			items: [...this.state.items, this.state.term]
-		});
+		if(this.state.message !== ''){
+			const chatRef = firebase.database().ref('general');
+			const chat = {
+				message: this.state.message,
+				user: this.props.user.displayName,
+				timestamp: new Date().getTime()
+			}
+			
+			chatRef.push(chat);
+			this.setState({message: ''});
+		}
 	}
 
 	render() {
 	  return (
+		 <Container maxWidth="sm" >
 		<div className="App">
-		  <h1>Chat app</h1>
+		  <Typography variant="h1">Chat app</Typography>
 		  
 		  {this.props.user &&
 		  <div className="allow-chat">
-		  	<Chatbox items={this.state.items} />
-		  	<form className="message-form" onSubmit={this.onSubmit}>
-			<input value={this.state.term} onChange={this.onChange} />
-			<button>Send</button>
+		  	<Box style={{ border: '1px solid #939393', borderRadius: '10px', padding: '10px' }}>
+		  	<Chatbox />
+		  	<form className="message-form" onSubmit={this.onSubmit} style={{display: 'flex', justifyContent: 'space-between' }}>
+			<TextField
+		  		style={{ width: '85%'}}
+		  		multiline variant="outlined"
+		  		rowsMax={4}
+		  		margin="dense"
+		  		name="message"
+		  		id="message"
+		  		value={this.state.message}
+		  		placeholder="Enter a message..."
+		  		onChange={this.onChange} />
+			<Button variant="contained" color="primary" type="submit" style={{ alignSelf: 'center', }}>Send</Button>
 		  	</form>
+		  	</Box>
 			</div>
 		  }
 		  {!this.props.user &&
 		  <div className="disallow-chat">
-		  	<p><Link to="/login">Login</Link> or <Link to="/register">Register</Link> to start chatting!</p>
+		  	<Typography><Link to="/login">Login</Link> or <Link to="/register">Register</Link> to start chatting!</Typography>
 		  </div>
 		  }
-		</div>
+		</div></Container>
 	  );
 	}
 }

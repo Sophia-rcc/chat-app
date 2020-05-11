@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+body {
+	background: #424242;
+	color: #ffb273;
+}
+
 .main-nav {
 	text-align: right;
 	margin-bottom: 50px;
@@ -19,17 +24,10 @@ code {
 }
 
 a {
-	color: darkred;
 	text-decoration: none;
-	transition: all .25s ease;
+	color: #bf2574;
 }
 
-a:hover {
-	color: crimson;
-	text-decoration: underline;
-}
-
-.main-nav a {
-	display: inline-block;
-	padding: 25px 25px;
+.main-nav {
+	margin: 25px 25px;
 }

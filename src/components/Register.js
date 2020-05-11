@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from '../firebase.js';
 import { Link } from 'react-router-dom';
+import { TextField, Container, Button, Grid, Typography } from '@material-ui/core';
 
 class Register extends React.Component{
 	constructor(props){
@@ -34,20 +35,58 @@ class Register extends React.Component{
 	render(){
 		const {email, username, password, error} = this.state;
 		return(
+			<Container maxWidth="sm">
 			<div className="auth-container">
-				<h1>Register your account!</h1>
-				{error && <p className="error-message">{error.message}</p>}
+				<Typography variant="h1">Register your account!</Typography>
+				{error && <Typography color="error" className="error-message">{error.message}</Typography>}
 				<form onSubmit={this.handleSubmit}>
-					<label htmlFor="username">Username</label>
-					<input type="text" name="username" id="username" value={username} onChange={this.handleChange}></input>
-					<label htmlFor="email">Email address</label>
-					<input type="text" name="email" id="email" value={email} onChange={this.handleChange}></input>
-					<label htmlFor="password">Choose a password</label>
-					<input type="password" name="password" id="password" value={password} onChange={this.handleChange}></input>
-					<button className="submit">Get started</button>
-					<p>Already have an account? <Link className="login-btn" to="/login">Login here</Link></p>
+				<Grid container spacing={1}>
+					<Grid item xs={12}>
+					<TextField
+					variant="outlined"
+					margin="dense"
+					label="Username"
+					type="text"
+					name="username"
+					id="username"
+					value={username}
+					onChange={this.handleChange}
+					/>
+					</Grid>
+					<Grid item xs={12}>
+					<TextField
+					variant="outlined"
+					margin="dense"
+					label="Email address"
+					type="text"
+					name="email"
+					id="email"
+					value={email}
+					onChange={this.handleChange}
+					/>
+					</Grid>
+					<Grid item xs={12}>
+					<TextField
+					variant="outlined"
+					margin="dense"
+					label="Password"
+					type="password"
+					name="password"
+					id="password"
+					value={password}
+					onChange={this.handleChange}
+					/>
+					</Grid>
+					<Grid item xs={3}>
+					<Button variant="contained" color="primary" type="submit" className="submit">Get started</Button>
+					</Grid>
+					<Grid item xs={10}>
+					<Typography>Already have an account? <Link className="login-btn" to="/login">Login here</Link></Typography>
+					</Grid>
+				</Grid>
 				</form>
 			</div>
+			</Container>
 		);
 	}
 }

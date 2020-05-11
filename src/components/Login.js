@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from '../firebase.js';
 import { Link } from 'react-router-dom';
+import { TextField, Container, Button, Grid, Typography } from '@material-ui/core';
 
 class Login extends React.Component{
 	constructor(props){
@@ -28,19 +29,47 @@ class Login extends React.Component{
 	render(){
 		const {email, password, error} = this.state;
 		return(
+			<Container maxWidth="sm">
 			<div className="auth-container">
-				<h1>Login</h1>
-				<p>Login to access your account</p>
-				{error && <p className="error-message">{error.message}</p>}
+				<Typography variant="h1">Login</Typography>
+				<Typography>Login to access your account</Typography>
+				{error && <Typography color="error" className="error-message">{error.message}</Typography>}
 				<form onSubmit={this.handleSubmit}>
-					<label htmlFor="email">Email address</label>
-					<input type="text" name="email" id="email" value={email} onChange={this.handleChange}></input>
-					<label htmlFor="password">Password</label>
-					<input type="password" name="password" id="password" value={password} onChange={this.handleChange}></input>
-					<button className="submit">Login</button>
-					<p>Don't have an account? <Link className="login-btn" to="/register">Register here</Link></p>
+				<Grid container spacing={1}>
+					<Grid item xs={12}>
+					<TextField
+					 variant="outlined"
+					 margin="dense"
+					 label="Email address"
+					 type="text"
+					 name="email"
+					 id="email"
+					 value={email}
+					 onChange={this.handleChange}
+					/>
+					</Grid>
+					<Grid item xs={12}>
+					<TextField
+					 variant="outlined"
+					 margin="dense"
+					 label="Password"
+					 type="password"
+					 name="password"
+					 id="password"
+					 value={password}
+					 onChange={this.handleChange}
+					/>
+					</Grid>
+					<Grid item xs={3}>
+					<Button className="submit" type="submit" variant="contained" color="primary">Login</Button>
+					</Grid>
+					<Grid item xs={10}>
+					<Typography>Don't have an account? <Link className="login-btn" to="/register">Register here</Link></Typography>
+					</Grid>
+				</Grid>
 				</form>
 			</div>
+			</Container>
 		);
 	}
 }
